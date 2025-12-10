@@ -1,0 +1,1946 @@
+{
+	"info": {
+		"_postman_id": "rental-app-api-collection",
+		"name": "Rental App API",
+		"description": "Complete API collection for Rental App Backend with Cloudinary image upload",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test User\",\n\t\"email\": \"test@example.com\",\n\t\"password\": \"Password123\",\n\t\"phoneNumber\": \"+1-555-0199\",\n\t\"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Register a new user"
+					}
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"admin@rentalapp.com\",\n\t\"password\": \"Admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Login with email and password"
+					}
+				},
+				{
+					"name": "Login with Phone",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"phoneNumber\": \"+1-555-0100\",\n\t\"password\": \"Admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login/phone",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login", "phone"]
+						},
+						"description": "Login with phone number and password"
+					}
+				},
+				{
+					"name": "Google Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"googleId\": \"google-oauth-id-123\",\n\t\"email\": \"googleuser@gmail.com\",\n\t\"name\": \"Google User\",\n\t\"photoUrl\": \"https://example.com/photo.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/google",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "google"]
+						},
+						"description": "Login/Register with Google OAuth"
+					}
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "me"]
+						},
+						"description": "Get current user profile"
+					}
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Updated Name\",\n\t\"phoneNumber\": \"+1-555-0200\",\n\t\"bio\": \"Updated bio information\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "profile"]
+						},
+						"description": "Update user profile"
+					}
+				},
+				{
+					"name": "Update Preferences",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"isDarkMode\": true,\n\t\"locale\": \"en\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/preferences",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "preferences"]
+						},
+						"description": "Update user preferences (theme, locale)"
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"currentPassword\": \"OldPassword123\",\n\t\"newPassword\": \"NewPassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/change-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "change-password"]
+						},
+						"description": "Change user password"
+					}
+				},
+				{
+					"name": "Set Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"NewPassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/set-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "set-password"]
+						},
+						"description": "Set password for OAuth users"
+					}
+				},
+				{
+					"name": "Update FCM Token",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fcmToken\": \"firebase-cloud-messaging-token-here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/fcm-token",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "fcm-token"]
+						},
+						"description": "Update FCM token for push notifications"
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh-token",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "refresh-token"]
+						},
+						"description": "Refresh JWT token"
+					}
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "Get All Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?page=1&limit=20&sortBy=createdAt&sortOrder=desc",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								},
+								{
+									"key": "location",
+									"value": "New York",
+									"disabled": true
+								},
+								{
+									"key": "propertyType",
+									"value": "apartment",
+									"disabled": true
+								},
+								{
+									"key": "minPrice",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "5000",
+									"disabled": true
+								},
+								{
+									"key": "bedrooms",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "bathrooms",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "amenities",
+									"value": "WiFi,AC,Parking",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all approved properties with filters"
+					}
+				},
+				{
+					"name": "Get Property by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Get a single property by ID"
+					}
+				},
+				{
+					"name": "Increment View Count",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id/view",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id", "view"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Increment property view count"
+					}
+				},
+				{
+					"name": "Get My Properties",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/owner/my-properties?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", "owner", "my-properties"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "approved",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get owner's properties"
+					}
+				},
+				{
+					"name": "Create Property",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Beautiful Downtown Apartment\",\n\t\"description\": \"A stunning apartment in the heart of the city with amazing views and modern amenities.\",\n\t\"price\": 2500,\n\t\"location\": \"123 Main Street, New York, NY 10001\",\n\t\"propertyType\": \"apartment\",\n\t\"bedrooms\": 2,\n\t\"bathrooms\": 1,\n\t\"squareFeet\": 900,\n\t\"amenities\": [\"WiFi\", \"AC\", \"Parking\", \"Gym\"],\n\t\"images\": [],\n\t\"isAvailable\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties"]
+						},
+						"description": "Create a new property (owner/admin). Upload images separately via /api/upload/property/:propertyId"
+					}
+				},
+				{
+					"name": "Update Property",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Updated Property Title\",\n\t\"price\": 2800,\n\t\"description\": \"Updated description for the property.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Update a property (owner/admin)"
+					}
+				},
+				{
+					"name": "Delete Property",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Delete a property (owner/admin)"
+					}
+				},
+				{
+					"name": "Resubmit Property",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id/resubmit",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id", "resubmit"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Resubmit a rejected property for review"
+					}
+				},
+				{
+					"name": "Toggle Availability",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id/availability",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id", "availability"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Toggle property availability status"
+					}
+				},
+				{
+					"name": "[Admin] Get Pending Properties",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/admin/pending?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", "admin", "pending"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Get pending properties (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Get Rejected Properties",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/admin/rejected?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", "admin", "rejected"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Get rejected properties (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Approve Property",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id/approve",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id", "approve"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Approve a pending property (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Reject Property",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"rejectionReason\": \"Property does not meet our quality standards.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/:id/reject",
+							"host": ["{{baseUrl}}"],
+							"path": ["properties", ":id", "reject"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Reject a pending property (admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Upload (Cloudinary)",
+			"item": [
+				{
+					"name": "Upload Single Image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "folder",
+									"value": "rental_app/general",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/upload/image",
+							"host": ["{{baseUrl}}"],
+							"path": ["upload", "image"]
+						},
+						"description": "Upload a single image to Cloudinary. Returns the image URL."
+					}
+				},
+				{
+					"name": "Upload Multiple Images",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "images",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "folder",
+									"value": "rental_app/properties",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/upload/images",
+							"host": ["{{baseUrl}}"],
+							"path": ["upload", "images"]
+						},
+						"description": "Upload multiple images (max 10). Returns array of URLs."
+					}
+				},
+				{
+					"name": "Upload Profile Photo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/upload/profile-photo",
+							"host": ["{{baseUrl}}"],
+							"path": ["upload", "profile-photo"]
+						},
+						"description": "Upload and update user's profile photo. Automatically updates User.photoUrl."
+					}
+				},
+				{
+					"name": "Upload Property Images",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "images",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/upload/property/:propertyId",
+							"host": ["{{baseUrl}}"],
+							"path": ["upload", "property", ":propertyId"],
+							"variable": [
+								{
+									"key": "propertyId",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Upload images for a specific property. Automatically adds URLs to Property.images array."
+					}
+				},
+				{
+					"name": "Delete Image",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"imageUrl\": \"https://res.cloudinary.com/dtagcz8w2/image/upload/v1234/rental_app/general/abc123.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/upload/image",
+							"host": ["{{baseUrl}}"],
+							"path": ["upload", "image"]
+						},
+						"description": "Delete an image from Cloudinary by URL"
+					}
+				},
+				{
+					"name": "Delete Property Image",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"imageUrl\": \"https://res.cloudinary.com/dtagcz8w2/image/upload/v1234/rental_app/properties/abc123/img1.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/upload/property/:propertyId/image",
+							"host": ["{{baseUrl}}"],
+							"path": ["upload", "property", ":propertyId", "image"],
+							"variable": [
+								{
+									"key": "propertyId",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Delete a specific property image. Removes from Cloudinary and Property.images array."
+					}
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get Property Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/property/:propertyId?page=1&limit=20&sortBy=createdAt&sortOrder=desc",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "property", ":propertyId"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							],
+							"variable": [
+								{
+									"key": "propertyId",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Get reviews for a property"
+					}
+				},
+				{
+					"name": "Get User Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/user/:userId?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "user", ":userId"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Get reviews by a user"
+					}
+				},
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"propertyId\": \"property_id_here\",\n\t\"rating\": 5,\n\t\"reviewText\": \"Amazing property! Great location and very clean. Highly recommend!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews"]
+						},
+						"description": "Create a new review"
+					}
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"rating\": 4,\n\t\"reviewText\": \"Updated review text here.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "review_id_here"
+								}
+							]
+						},
+						"description": "Update a review"
+					}
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "review_id_here"
+								}
+							]
+						},
+						"description": "Delete a review"
+					}
+				},
+				{
+					"name": "Mark Review Helpful",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/:id/helpful",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", ":id", "helpful"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "review_id_here"
+								}
+							]
+						},
+						"description": "Mark a review as helpful"
+					}
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Get Favorites",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/favorites?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Get user's favorite properties"
+					}
+				},
+				{
+					"name": "Get Favorite IDs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/favorites/ids",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites", "ids"]
+						},
+						"description": "Get list of favorite property IDs"
+					}
+				},
+				{
+					"name": "Check Favorite",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/favorites/check/:propertyId",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites", "check", ":propertyId"],
+							"variable": [
+								{
+									"key": "propertyId",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Check if a property is favorited"
+					}
+				},
+				{
+					"name": "Add Favorite",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"propertyId\": \"property_id_here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/favorites",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites"]
+						},
+						"description": "Add property to favorites"
+					}
+				},
+				{
+					"name": "Toggle Favorite",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/favorites/toggle/:propertyId",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites", "toggle", ":propertyId"],
+							"variable": [
+								{
+									"key": "propertyId",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Toggle favorite status"
+					}
+				},
+				{
+					"name": "Remove Favorite",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/favorites/:propertyId",
+							"host": ["{{baseUrl}}"],
+							"path": ["favorites", ":propertyId"],
+							"variable": [
+								{
+									"key": "propertyId",
+									"value": "property_id_here"
+								}
+							]
+						},
+						"description": "Remove property from favorites"
+					}
+				}
+			]
+		},
+		{
+			"name": "Viewings",
+			"item": [
+				{
+					"name": "Get User Viewings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/viewings/user?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["viewings", "user"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get user's viewing requests"
+					}
+				},
+				{
+					"name": "Get Owner Viewings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/viewings/owner?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["viewings", "owner"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get viewing requests for owner's properties"
+					}
+				},
+				{
+					"name": "Create Viewing Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"propertyId\": \"property_id_here\",\n\t\"date\": \"2025-12-20T14:00:00.000Z\",\n\t\"note\": \"I would like to view this property at my earliest convenience.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/viewings",
+							"host": ["{{baseUrl}}"],
+							"path": ["viewings"]
+						},
+						"description": "Create a new viewing request"
+					}
+				},
+				{
+					"name": "Update Viewing Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\": \"confirmed\",\n\t\"cancelReason\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/viewings/:id/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["viewings", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "viewing_id_here"
+								}
+							]
+						},
+						"description": "Update viewing status (pending, confirmed, cancelled, completed, rejected)"
+					}
+				},
+				{
+					"name": "Delete Viewing",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/viewings/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["viewings", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "viewing_id_here"
+								}
+							]
+						},
+						"description": "Delete a viewing request"
+					}
+				}
+			]
+		},
+		{
+			"name": "Chats",
+			"item": [
+				{
+					"name": "Get Chats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats"]
+						},
+						"description": "Get user's chat rooms"
+					}
+				},
+				{
+					"name": "Get Unread Count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats/unread-count",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", "unread-count"]
+						},
+						"description": "Get total unread message count"
+					}
+				},
+				{
+					"name": "[Admin] Get Support Chats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats/admin/support",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", "admin", "support"]
+						},
+						"description": "Get admin support chats (admin only)"
+					}
+				},
+				{
+					"name": "Get or Create Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"other_user_id_here\",\n\t\"isAdminSupport\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/chats",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats"]
+						},
+						"description": "Get or create a chat with another user"
+					}
+				},
+				{
+					"name": "Get or Create Support Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats/support",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", "support"]
+						},
+						"description": "Get or create admin support chat"
+					}
+				},
+				{
+					"name": "Get Messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats/:chatId/messages?page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", ":chatId", "messages"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							],
+							"variable": [
+								{
+									"key": "chatId",
+									"value": "chat_id_here"
+								}
+							]
+						},
+						"description": "Get messages for a chat"
+					}
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\": \"Hello! I'm interested in your property.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/chats/:chatId/messages",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", ":chatId", "messages"],
+							"variable": [
+								{
+									"key": "chatId",
+									"value": "chat_id_here"
+								}
+							]
+						},
+						"description": "Send a message in a chat"
+					}
+				},
+				{
+					"name": "Delete Message",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats/:chatId/messages/:messageId",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", ":chatId", "messages", ":messageId"],
+							"variable": [
+								{
+									"key": "chatId",
+									"value": "chat_id_here"
+								},
+								{
+									"key": "messageId",
+									"value": "message_id_here"
+								}
+							]
+						},
+						"description": "Delete a message (soft delete)"
+					}
+				},
+				{
+					"name": "Mark Messages as Read",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chats/:chatId/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["chats", ":chatId", "read"],
+							"variable": [
+								{
+									"key": "chatId",
+									"value": "chat_id_here"
+								}
+							]
+						},
+						"description": "Mark all messages in a chat as read"
+					}
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/notifications?page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						},
+						"description": "Get user's notifications"
+					}
+				},
+				{
+					"name": "Get Unread Count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/notifications/unread-count",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications", "unread-count"]
+						},
+						"description": "Get unread notification count"
+					}
+				},
+				{
+					"name": "Mark as Read",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/notifications/:id/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications", ":id", "read"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "notification_id_here"
+								}
+							]
+						},
+						"description": "Mark a notification as read"
+					}
+				},
+				{
+					"name": "Mark All as Read",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/notifications/read-all",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications", "read-all"]
+						},
+						"description": "Mark all notifications as read"
+					}
+				},
+				{
+					"name": "Delete Notification",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/notifications/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "notification_id_here"
+								}
+							]
+						},
+						"description": "Delete a notification"
+					}
+				},
+				{
+					"name": "Delete All Notifications",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/notifications",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications"]
+						},
+						"description": "Delete all notifications"
+					}
+				},
+				{
+					"name": "[Admin] Create Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"user_id_here\",\n\t\"type\": \"system\",\n\t\"title\": \"System Notification\",\n\t\"body\": \"This is a system notification message.\",\n\t\"data\": {}\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/notifications",
+							"host": ["{{baseUrl}}"],
+							"path": ["notifications"]
+						},
+						"description": "Create a notification (admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Users (Admin)",
+			"item": [
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Get user by ID (public)"
+					}
+				},
+				{
+					"name": "[Admin] Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users?page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "role",
+									"value": "user",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "john",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all users (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Get User Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "stats"]
+						},
+						"description": "Get user statistics (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Updated User Name\",\n\t\"role\": \"owner\",\n\t\"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Update a user (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Delete a user (admin only)"
+					}
+				},
+				{
+					"name": "[Admin] Toggle User Active",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/:id/toggle-active",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", ":id", "toggle-active"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Toggle user active status (admin only)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/health",
+					"host": ["{{baseUrl}}"],
+					"path": ["health"]
+				},
+				"description": "API health check endpoint"
+			}
+		}
+	]
+}
