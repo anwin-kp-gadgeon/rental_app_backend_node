@@ -72,7 +72,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Indexes
-userSchema.index({ email: 1 });
 userSchema.index({ phoneNumber: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ googleId: 1 });
